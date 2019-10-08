@@ -1,8 +1,10 @@
+# AKIN KÜRŞAT ÖZKAN / 140709037
+
 # Project 1: Search Algorithms in Action
 
 Purpose of this project is that is creating implementation of Breadth-first, Depth-first and Uniform-cost searching algorithms in python.
 
-Project works with grap input in txt format and choosed start and end states.
+The project works with grap input in txt format and chosen start and end states.
 
 Sample input graph;
 
@@ -20,7 +22,7 @@ F:{A:0, B:0, C:8, D:0, E:7, F:0, G:6}
 
 G:{A:0, B:0, C:0, D:0, E:6, F:6, G:0}
 
-And The Implemantation;
+And the Implementation;
 
 root@DESKTOP-TSJVH:/home/ceng3511/p1# python3 search.py graph.txt
 
@@ -33,3 +35,7 @@ BFS : A - B - E - G
 DFS : A - B - C - D - E - F - G
 
 UCS : A - C - F - G
+
+You can check python code from search.py file. In the file, there are also comments to explain every step of implementation
+
+
