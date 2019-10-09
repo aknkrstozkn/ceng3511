@@ -53,8 +53,14 @@ goalKey = str(input("Please enter the goal state : "))
 
 #######----Breadth-First Search----#######
 def BreadthFirstSearch(dic, goalKey, startKey):
+    #Security
+    if (startKey not in dic) or (goalKey not in dic):
+        print("BFS : ")
+        return
+    
     #Creating List For Visited Values
-    visited = []
+    visited = []    
+    
     #Adding Start Key Beginning Of The Script Because We Always Visit It
     visited.append(startKey)
     #Creating Queue For BFS usage(Its Techniclay Not A Queue But We Use It Like Queue)
@@ -73,7 +79,7 @@ def BreadthFirstSearch(dic, goalKey, startKey):
                 if item not in visited:
                     queue.append(item)
                     visited.append(item)
-                    stringList.append(string + " - " + item)
+                    stringList.append(string + " - " + item)            
             return BFS(stringList.pop(0), queue.pop(0))            
     ###--Recursive Implementation Of Recursive Breadth-First Search--###
     print("BFS : " + BFS(startKey,startKey))
@@ -83,6 +89,10 @@ BreadthFirstSearch(dic, goalKey, startKey)
 
 #######----Depth-First Search----#######
 def DepthFirstSearch(dic, goalKey, startKey):
+    #Security
+    if (startKey not in dic) or (goalKey not in dic):
+        print("DFS : ")
+        return
     #Creating List For Visited Values
     visited = []
     #Adding Start Key Beginning Of The Script Because We Always Visit It
@@ -121,7 +131,11 @@ DepthFirstSearch(dic, goalKey, startKey)
 #######----Depth-First Search----#######
 
 #######----Uniform-Cost Search----#######
-def UniformCostSearch(dic, goalKey, startKey):    
+def UniformCostSearch(dic, goalKey, startKey):
+    #Security
+    if (startKey not in dic) or (goalKey not in dic):
+        print("UCS : ")
+        return    
     #Creating List For Visited Values
     visited = []
     #Adding Start Key Beginning Of The Script Because We Always Visit It
