@@ -143,7 +143,7 @@ def UniformCostSearch(dic, goalKey, startKey):
     #Creating Queue For UCS usage(Its Techniclay Not A Queue But We Use It Like Queue)
     queue = []
     #Creating A List To Hold Paths(Also This List Works As Queue)
-    stringList = []
+    
     
     #Shortind Dictionaries By Value To Get Least Cost Path
     def ShortingDictionary(dic):
@@ -156,23 +156,63 @@ def UniformCostSearch(dic, goalKey, startKey):
         return newDic    
     
     dic= ShortingDictionary(dic)
+    
+    #The dictionary that holds all paths to goal state and their costs
+    allPathsToGoal = {}
+    #Holds visited paths whose hold their visited states(two dimensional array)
+    visitedPaths= []
+    #Element of visitedPaths list, it holds visited states for a path
+    visitedPathElements = []
+    #Always first state is visited so befor the call algoritm we add first to visited List
+    visitedPathElements.append(startKey)
+    #To hold costs of paths
+    visitedPathCosts = []
+    
     ###--Recursive Implementation Of Recursive Uniform-Cost Search--###
-    def UCS(string, key):
-        #If We Hit Goal Then Return Path
-        if key == goalKey:
-            return string;
-        #If We Dont Hit Yet Than Appending Not Visited Keys And Their Paths
-        else:            
-            for item in dic[key]:
-                if item not in visited:
-                    queue.append(item)
-                    visited.append(item)
-                    stringList.append(string + " - " + item)
-            return UCS(stringList.pop(0), queue.pop(0))            
-    ###--Recursive Implementation Of Recursive Uniform-Cost Search--###
-    print("UCS : " + UCS(startKey,startKey))
-
-
+    def UCS(key, visitedPathElements, visitedPathCost):
+        #If algorithm hits the goal state, it transform its path to a string to print
+        #  and add the string-path and its cost to allPathsToGoal dictionary
+        if key == goalKey:        
+            string = str(visitedPathElements[0])            
+            for i in range(1, len(visitedPathElements)):
+                string += (" - " + visitedPathElements[i])
+                
+            allPathsToGoal[string] = visitedPathCost        
+        
+        #Calling state's nodes to add them queue and creating the tree
+        for item in dic[key]:
+            #Algorith use visitedPathElements to create child nodes visitedPathElements so algorithm works
+            #    on the visitedPathElements but can change it so it needs a Temporary list to hold values
+            #Temporary list of visitedPathElements
+            tempVisitedPath = []
+            tempVisitedPath.clear()
+            tempVisitedPath.extend(visitedPathElements)
+            #if state is allready visited so if its in visitedPathElements, doesnt use it again.  
+            if item not in visitedPathElements:
+                visitedPathCosts.append(visitedPathCost + int(dic[key][item]))
+                queue.append(item)
+                tempVisitedPath.append(item)
+                visitedPaths.append(tempVisitedPath)
+        
+        #if there is no state left to travel, this's mean is ahgorithm travelled all the graph
+        #There is no path to visit so recursive ends here
+        if len(queue) == 0:
+           return
+            
+        return UCS(queue.pop(0), visitedPaths.pop(0), visitedPathCosts.pop(0))                
+                        
+    ###--Recursive Implementation Of Recursive Uniform-Cost Search--###        
+    
+    UCS(startKey, visitedPathElements, 0)
+    
+    #Created allPathsToGoal dictionary holds the values of goal state paths but not shorted
+    #   and we need the shortes one this code shorts the allPathsToGoal dictionary according
+    #   to value(path cost) 
+    sortedPathDic = {}
+    for key, value in sorted(allPathsToGoal.items(), key=lambda kv: kv[1], reverse=False):
+                sortedPathDic[key] = value   
+    
+    print("UCS : " + next(iter(sortedPathDic)))
 
 UniformCostSearch(dic, goalKey, startKey)
 #######----Uniform-Cost Search----#######
