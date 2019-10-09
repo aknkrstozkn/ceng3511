@@ -6,7 +6,8 @@ Purpose of this project is that is creating implementation of Breadth-first, Dep
 
 The project works with grap input in txt format and chosen start and end states.
 
-Sample input graph;
+Sample input graph ;
+(Warning! Input must be same as this graph because at the backend, bunch of regex functions work on this exact input)
 
 A:{A:0, B:6, C:3, D:4, E:0, F:0, G:0}
 
@@ -23,6 +24,7 @@ F:{A:0, B:0, C:8, D:0, E:7, F:0, G:6}
 G:{A:0, B:0, C:0, D:0, E:6, F:6, G:0}
 
 And the Implementation;
+(Warning! this program returns to you the path between states not all visited states)
 
 root@DESKTOP-TSJVH:/home/ceng3511/p1# python3 search.py graph.txt
 
@@ -34,7 +36,7 @@ BFS : A - B - E - G
 
 DFS : A - B - C - D - E - F - G
 
-UCS : A - C - F - G
+UCS : A - D - E - G
 
 You can check python code from search.py file. In the file, there are also comments to explain every step of implementation
 

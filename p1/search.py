@@ -11,7 +11,7 @@ text = open(str(sys.argv[1]),"r")
 #Reading All Lines From Input File And Holding These Lines As A List
 graph = text.readlines()
 
-#######----Converting Input-Graph To Dictionary----#######
+#######////Converting Input-Graph To Dictionary\\\\#######
 def GraphToDictionary(graph):
     #Adding Double Quotes(") To The Beginning And The End Of Letters For Dictionary Syntax
     graph[0] = re.sub(r"([A-Z])", r"'\1'", graph[0])    
@@ -42,18 +42,18 @@ def GraphToDictionary(graph):
     return newDic
     
 dic = GraphToDictionary(graph)
-#######----Converting Input-Graph To Dictionary----#######
+#######\\\\Converting Input-Graph To Dictionary////#######
 
-#######----Getting Start and Goal Keys As Console Inputs----#######
+#######////Getting Start and Goal Keys As Console Inputs\\\\#######
 startKey = str(input("Please enter the start state : "))
 goalKey = str(input("Please enter the goal state : "))
-#######----Getting Start and Goal Keys As Console Inputs----#######
+#######\\\\Getting Start and Goal Keys As Console Inputs////#######
 
 #############################################------Searching Algorithms------#############################################
 
-#######----Breadth-First Search----#######
+#######////Breadth-First Search\\\\#######
 def BreadthFirstSearch(dic, goalKey, startKey):
-    #Security
+    #Security protection from wrong inputs
     if (startKey not in dic) or (goalKey not in dic):
         print("BFS : ")
         return
@@ -61,14 +61,14 @@ def BreadthFirstSearch(dic, goalKey, startKey):
     #Creating List For Visited Values
     visited = []    
     
-    #Adding Start Key Beginning Of The Script Because We Always Visit It
+    #Adding Start Key Beginning Of The Function Because We Always Visit It
     visited.append(startKey)
     #Creating Queue For BFS usage(Its Techniclay Not A Queue But We Use It Like Queue)
     queue = []
     #Creating A List To Hold Paths(Also This List Works As Queue)
     stringList = []
     
-    ###--Recursive Implementation Of Recursive Breadth-First Search--###
+    ###--Recursive Implementation Of Breadth-First Search--###
     def BFS(string, key):
         #If We Hit Goal Then Return Path
         if key == goalKey:
@@ -81,29 +81,30 @@ def BreadthFirstSearch(dic, goalKey, startKey):
                     visited.append(item)
                     stringList.append(string + " - " + item)            
             return BFS(stringList.pop(0), queue.pop(0))            
-    ###--Recursive Implementation Of Recursive Breadth-First Search--###
+    ###--Recursive Implementation Of Breadth-First Search--###
     print("BFS : " + BFS(startKey,startKey))
 
 BreadthFirstSearch(dic, goalKey, startKey)
-#######----Breadth-First Search----#######
+#######\\\\Breadth-First Search////#######
 
-#######----Depth-First Search----#######
+#######////Depth-First Search\\\\#######
 def DepthFirstSearch(dic, goalKey, startKey):
-    #Security
+    #Security protection from wrong inputs
     if (startKey not in dic) or (goalKey not in dic):
         print("DFS : ")
         return
     #Creating List For Visited Values
     visited = []
-    #Adding Start Key Beginning Of The Script Because We Always Visit It
+    #Adding Start Key Beginning Of The Function Because We Always Visit It
     visited.append(startKey)
     #Creating Stack For DFS usage(Its Techniclay Not A Stack But We Use It Like Stack)
     stack = []
     #Creating A List To Hold Paths(Also This List Works As Stack)
     stringList = []
     
-    ###--Recursive Implementation Of Recursive Depth-First Search--###
+    ###--Recursive Implementation Of Depth-First Search--###
     def DFS(string, key):
+        #If algorithm hits the ground, this variable will be remain None 
         returnKey = None
         
         #If We Hit Goal Then Return Path
@@ -118,32 +119,31 @@ def DepthFirstSearch(dic, goalKey, startKey):
                     stringList.append(string + " - " + item)
                     returnKey = item
                     break
+            #If this variable is None thats mean is no way to go so go back
             if returnKey is None:
                 stringList.pop()
-                stack.pop()
-                return DFS(stringList[-1], stack[-1])
+                stack.pop()                
             
             return DFS(stringList[-1], stack[-1])            
-    ###--Recursive Implementation Of Recursive Depth-First Search--###
+    ###--Recursive Implementation Of Depth-First Search--###
     print("DFS : " + DFS(startKey,startKey))
 
 DepthFirstSearch(dic, goalKey, startKey)
-#######----Depth-First Search----#######
+#######\\\\Depth-First Search////#######
 
-#######----Uniform-Cost Search----#######
+#######////Uniform-Cost Search\\\\#######
 def UniformCostSearch(dic, goalKey, startKey):
-    #Security
+    #Security protection from wrong inputs
     if (startKey not in dic) or (goalKey not in dic):
         print("UCS : ")
         return    
     #Creating List For Visited Values
     visited = []
-    #Adding Start Key Beginning Of The Script Because We Always Visit It
+    #Adding Start Key Beginning Of The Function Because We Always Visit It
     visited.append(startKey)
     #Creating Queue For UCS usage(Its Techniclay Not A Queue But We Use It Like Queue)
     queue = []
-    #Creating A List To Hold Paths(Also This List Works As Queue)
-    
+    #Creating A List To Hold Paths(Also This List Works As Queue)    
     
     #Shortind Dictionaries By Value To Get Least Cost Path
     def ShortingDictionary(dic):
@@ -168,7 +168,7 @@ def UniformCostSearch(dic, goalKey, startKey):
     #To hold costs of paths
     visitedPathCosts = []
     
-    ###--Recursive Implementation Of Recursive Uniform-Cost Search--###
+    ###--Recursive Implementation Of Uniform-Cost Search--###
     def UCS(key, visitedPathElements, visitedPathCost):
         #If algorithm hits the goal state, it transform its path to a string to print
         #  and add the string-path and its cost to allPathsToGoal dictionary
@@ -197,22 +197,18 @@ def UniformCostSearch(dic, goalKey, startKey):
         #if there is no state left to travel, this's mean is ahgorithm travelled all the graph
         #There is no path to visit so recursive ends here
         if len(queue) == 0:
-           return
-            
-        return UCS(queue.pop(0), visitedPaths.pop(0), visitedPathCosts.pop(0))                
-                        
-    ###--Recursive Implementation Of Recursive Uniform-Cost Search--###        
+           return            
+        return UCS(queue.pop(0), visitedPaths.pop(0), visitedPathCosts.pop(0))                        
+    ###--Recursive Implementation Of Uniform-Cost Search--###        
     
-    UCS(startKey, visitedPathElements, 0)
-    
+    UCS(startKey, visitedPathElements, 0)    
     #Created allPathsToGoal dictionary holds the values of goal state paths but not shorted
     #   and we need the shortes one this code shorts the allPathsToGoal dictionary according
     #   to value(path cost) 
     sortedPathDic = {}
     for key, value in sorted(allPathsToGoal.items(), key=lambda kv: kv[1], reverse=False):
-                sortedPathDic[key] = value   
-    
+                sortedPathDic[key] = value
     print("UCS : " + next(iter(sortedPathDic)))
 
 UniformCostSearch(dic, goalKey, startKey)
-#######----Uniform-Cost Search----#######
+#######\\\\Uniform-Cost Search////#######
